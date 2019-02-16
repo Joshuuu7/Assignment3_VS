@@ -337,7 +337,8 @@ namespace FloresOlderr_Assignment3
             else
             {
                 ResultsListView = generateListView(ResultsListView);
-                ResultsListView.Items.Add("Hoorayyyy");
+                string class_server = "Class: " + ClassComboBox.Text + " Server: " + SingleServerComboBox.Text;
+                ResultsListView.Items.Add(class_server);
             }
         }
 
@@ -351,7 +352,8 @@ namespace FloresOlderr_Assignment3
             else
             {
                 ResultsListView = generateListView(ResultsListView);
-                ResultsListView.Items.Add("Percentage clicked.");
+                string percentage = PercentageServerComboBox.Text;
+                ResultsListView.Items.Add(percentage);
             }
         }
     }
