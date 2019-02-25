@@ -43,8 +43,8 @@
             this.MaxLabel = new System.Windows.Forms.Label();
             this.RoleComboBox = new System.Windows.Forms.ComboBox();
             this.RoleServerComboBox = new System.Windows.Forms.ComboBox();
-            this.MinNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.MaxNumericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.MinNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.MaxNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.AllGuildsHeaderLabel = new System.Windows.Forms.Label();
             this.TypeLabel = new System.Windows.Forms.Label();
             this.TypeComboBox = new System.Windows.Forms.ComboBox();
@@ -62,15 +62,14 @@
             this.HealerRadioButton = new System.Windows.Forms.RadioButton();
             this.DamageRadioButton = new System.Windows.Forms.RadioButton();
             this.RadioButtonPanel = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.MinNumericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MaxNumericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxNumericUpDown)).BeginInit();
             this.RadioButtonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // ClassTypeSingleServerHeaderLabel
             // 
             this.ClassTypeSingleServerHeaderLabel.AutoSize = true;
-            this.ClassTypeSingleServerHeaderLabel.Enabled = false;
             this.ClassTypeSingleServerHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClassTypeSingleServerHeaderLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClassTypeSingleServerHeaderLabel.Location = new System.Drawing.Point(15, 9);
@@ -211,19 +210,19 @@
             this.RoleServerComboBox.Size = new System.Drawing.Size(121, 21);
             this.RoleServerComboBox.TabIndex = 14;
             // 
-            // MinNumericUpDown1
+            // MinNumericUpDown
             // 
-            this.MinNumericUpDown1.Location = new System.Drawing.Point(18, 309);
-            this.MinNumericUpDown1.Name = "MinNumericUpDown1";
-            this.MinNumericUpDown1.Size = new System.Drawing.Size(42, 20);
-            this.MinNumericUpDown1.TabIndex = 15;
+            this.MinNumericUpDown.Location = new System.Drawing.Point(18, 309);
+            this.MinNumericUpDown.Name = "MinNumericUpDown";
+            this.MinNumericUpDown.Size = new System.Drawing.Size(42, 20);
+            this.MinNumericUpDown.TabIndex = 15;
             // 
-            // MaxNumericUpDown1
+            // MaxNumericUpDown
             // 
-            this.MaxNumericUpDown1.Location = new System.Drawing.Point(173, 309);
-            this.MaxNumericUpDown1.Name = "MaxNumericUpDown1";
-            this.MaxNumericUpDown1.Size = new System.Drawing.Size(46, 20);
-            this.MaxNumericUpDown1.TabIndex = 16;
+            this.MaxNumericUpDown.Location = new System.Drawing.Point(173, 309);
+            this.MaxNumericUpDown.Name = "MaxNumericUpDown";
+            this.MaxNumericUpDown.Size = new System.Drawing.Size(46, 20);
+            this.MaxNumericUpDown.TabIndex = 16;
             // 
             // AllGuildsHeaderLabel
             // 
@@ -304,6 +303,7 @@
             this.RoleTypesButton.TabIndex = 24;
             this.RoleTypesButton.Text = "Show Results";
             this.RoleTypesButton.UseVisualStyleBackColor = true;
+            this.RoleTypesButton.Click += new System.EventHandler(this.RoleTypesButton_Click);
             // 
             // GuildsSingleTypeButton
             // 
@@ -313,6 +313,7 @@
             this.GuildsSingleTypeButton.TabIndex = 25;
             this.GuildsSingleTypeButton.Text = "Show Results";
             this.GuildsSingleTypeButton.UseVisualStyleBackColor = true;
+            this.GuildsSingleTypeButton.Click += new System.EventHandler(this.GuildsSingleTypeButton_Click);
             // 
             // PlayersWithoutRoleButton
             // 
@@ -322,6 +323,7 @@
             this.PlayersWithoutRoleButton.TabIndex = 26;
             this.PlayersWithoutRoleButton.Text = "Show Results";
             this.PlayersWithoutRoleButton.UseVisualStyleBackColor = true;
+            this.PlayersWithoutRoleButton.Click += new System.EventHandler(this.PlayersWithoutRoleButton_Click);
             // 
             // MaxLevelPlayersButton
             // 
@@ -331,11 +333,11 @@
             this.MaxLevelPlayersButton.TabIndex = 27;
             this.MaxLevelPlayersButton.Text = "Show Results";
             this.MaxLevelPlayersButton.UseVisualStyleBackColor = true;
+            this.MaxLevelPlayersButton.Click += new System.EventHandler(this.MaxLevelPlayersButton_Click);
             // 
             // QueryHeaderLabel
             // 
             this.QueryHeaderLabel.AutoSize = true;
-            this.QueryHeaderLabel.Enabled = false;
             this.QueryHeaderLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.QueryHeaderLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.QueryHeaderLabel.Location = new System.Drawing.Point(601, 9);
@@ -348,6 +350,7 @@
             // 
             this.ResultsListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.ResultsListView.AutoArrange = false;
+            this.ResultsListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ResultsListView.FullRowSelect = true;
             this.ResultsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.ResultsListView.HideSelection = false;
@@ -426,8 +429,8 @@
             this.Controls.Add(this.TypeComboBox);
             this.Controls.Add(this.TypeLabel);
             this.Controls.Add(this.AllGuildsHeaderLabel);
-            this.Controls.Add(this.MaxNumericUpDown1);
-            this.Controls.Add(this.MinNumericUpDown1);
+            this.Controls.Add(this.MaxNumericUpDown);
+            this.Controls.Add(this.MinNumericUpDown);
             this.Controls.Add(this.RoleServerComboBox);
             this.Controls.Add(this.RoleComboBox);
             this.Controls.Add(this.MaxLabel);
@@ -446,8 +449,8 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.MinNumericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MaxNumericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MinNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxNumericUpDown)).EndInit();
             this.RadioButtonPanel.ResumeLayout(false);
             this.RadioButtonPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -472,8 +475,8 @@
         private System.Windows.Forms.Label MaxLabel;
         private System.Windows.Forms.ComboBox RoleComboBox;
         private System.Windows.Forms.ComboBox RoleServerComboBox;
-        private System.Windows.Forms.NumericUpDown MinNumericUpDown1;
-        private System.Windows.Forms.NumericUpDown MaxNumericUpDown1;
+        private System.Windows.Forms.NumericUpDown MinNumericUpDown;
+        private System.Windows.Forms.NumericUpDown MaxNumericUpDown;
         private System.Windows.Forms.Label AllGuildsHeaderLabel;
         private System.Windows.Forms.Label TypeLabel;
         private System.Windows.Forms.ComboBox TypeComboBox;
