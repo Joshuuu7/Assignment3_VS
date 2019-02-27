@@ -20,8 +20,8 @@ namespace FloresOlderr_Assignment3
         public Form1()
         {
             InitializeComponent();
-            ResultsListView = generateListView(ResultsListView);             
-            ClassComboBox.Items.AddRange(new object [] { "Warrior",
+            ResultsListView = generateListView(ResultsListView);
+            ClassComboBox.Items.AddRange(new object[] { "Warrior",
             "Mage",
             "Druid",
             "Priest",
@@ -30,13 +30,13 @@ namespace FloresOlderr_Assignment3
             "Paladin",
             "Hunter",
             "Shaman" });
-            SingleServerComboBox.Items.AddRange(new object [] { "Beta4Azeroth",
+            SingleServerComboBox.Items.AddRange(new object[] { "Beta4Azeroth",
             "TKWasASetback",
             "ZappyBoi" });
-            PercentageServerComboBox.Items.AddRange(new object [] { "Beta4Azeroth",
+            PercentageServerComboBox.Items.AddRange(new object[] { "Beta4Azeroth",
             "TKWasASetback",
             "ZappyBoi" });
-            TypeComboBox.Items.AddRange(new object [] { "0", "1", "2", "3", "4" });
+            TypeComboBox.Items.AddRange(new object[] { "Causal", "Questing", "Mythic+", "Raiding", "PVP" });
             RoleComboBox.Items.AddRange(new object[] { "Tank", "Healer", "Damage" });
             RoleServerComboBox.Items.AddRange(new object[] { "Beta4Azeroth",
             "TKWasASetback",
@@ -48,13 +48,13 @@ namespace FloresOlderr_Assignment3
                 //Console.WriteLine(p.Name);
             }
             guilds_roster = readGuilds();
-            foreach(Guild g in guilds_roster)
+            foreach (Guild g in guilds_roster)
             {
                 //Console.WriteLine(g.ToString());
             }
-            foreach(Player p in player_roster)
+            foreach (Player p in player_roster)
             {
-                foreach(Guild g in guilds_roster)
+                foreach (Guild g in guilds_roster)
                 {
                     if (p.Guild_ID.Equals(g.ID))
                     {
@@ -63,15 +63,15 @@ namespace FloresOlderr_Assignment3
                     }
                 }
             }
-            foreach(Player p  in player_roster)
+            foreach (Player p in player_roster)
             {
-                Console.WriteLine(p.ToString() + " Server: " + p.GetServer());
+                //Console.WriteLine(p.ToString() + " Server: " + p.GetServer());
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private ListView generateListView(ListView listView)
@@ -254,232 +254,143 @@ namespace FloresOlderr_Assignment3
             return guild_server;
         }
 
-        List<Guild> readGuilds()
-        {
-
-            string alphabet =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
-
-            string digits =
-            "0123456789";
-
-            string alphanumeric = alphabet + digits;
-
-            StringBuilder file_data_builder = new StringBuilder();
-
-            bool separated =
-            false;
-
-            using (StreamReader inFile =
-            new StreamReader("guilds.txt"))
-
+        public static string GetType(string guild_type)
+        {      
+            switch (guild_type)
             {
-
-                while (!inFile.EndOfStream)
-
-                {
-
-                    char ch = (char)inFile.Read();
-
-                    if (!separated && alphanumeric.IndexOf(ch) == -1)
-
-                    {
-
-                        separated = true;
-
-                        file_data_builder.Append('$');
-
-                    }
-
-                    else if (alphanumeric.IndexOf(ch) >=
-                    0)
-
-                    {
-
-                        file_data_builder.Append(ch);
-
-                        separated = false;
-
-                    }
-
-                }
+                case "0":
+                    return "Causal";
+                case "1":
+                    return "Questing";
+                case "2":
+                    return "Mythic+";
+                case "3":
+                    return "Raiding";
+                case "4":
+                    return "PVP";
+                case "Causal":
+                    return "Causal";
+                case "Questing":
+                    return "Questing";
+                case "Mythic":
+                    return "Mythic+";
+                case "Raiding":
+                    return "Raiding";
+                case "PVP":
+                    return "PVP";
+                default:
+                    return "Causal";
 
             }
+        }
+
+        List<Guild> readGuilds()
+        {
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
+            string digits = "0123456789";
+            string alphanumeric = alphabet + digits;
+            StringBuilder file_data_builder = new StringBuilder();
+            bool separated = false;
+            using (StreamReader inFile =
+            new StreamReader("guilds.txt"))
+            {
+                while (!inFile.EndOfStream)
+                {
+                    char ch = (char)inFile.Read();
+                    if (!separated && alphanumeric.IndexOf(ch) == -1)
+                    {
+                        separated = true;
+                        file_data_builder.Append('$');
+                    }
+                    else if (alphanumeric.IndexOf(ch) >= 0)
+                    {
+                        file_data_builder.Append(ch);
+                        separated = false;
+                    }
+                }
+            }
             char[] file_data = file_data_builder.ToString().Trim().ToCharArray();
-
-            //Console.WriteLine(file_data_builder.ToString());
-
             StringBuilder id_builder;
-
-            StringBuilder type_builder;
-
+            StringBuilder type_builder;        
             StringBuilder name_builder;
-
             StringBuilder server_builder;
-
-
-
             string id;
-
             string type;
-
             string name;
-
             string server;
-
-
-
             List<Guild> guild_list = new List<Guild>();
-
-
-
             int len = file_data.Length;
 
             int i = 0;
-
             while (i < len)
             {
-
                 // Clear the spaces.
-
-                while ( i < len && file_data[i] ==
-                '$')
-
+                while (i < len && file_data[i] == '$')
                 {
-
                     i++;
-
                 }
-
                 // Read the id.
-
                 id_builder = new StringBuilder();
-
-                while (i < len && file_data[i] !=
-                '$')
-
+                while (i < len && file_data[i] != '$')
                 {
-
                     id_builder.Append(file_data[i]);
-
                     i++;
-
                 }
-
                 id = id_builder.ToString();
-
                 // Clear the spaces.
-
-                while (i < len && file_data[i] ==
-                '$')
-
+                while (i < len && file_data[i] == '$')
                 {
-
                     i++;
-
                 }
-
                 // Read the type
-
                 type_builder = new StringBuilder();
-
-                while (i < len && file_data[i] !=
-                '$')
+                while (i < len && file_data[i] != '$')
                 {
-
                     type_builder.Append(file_data[i]);
-
                     i++;
-
                 }
-
                 type = type_builder.ToString();
-
                 // Clear the spaces.
-
-                while (i < len && file_data[i] ==
-                '$')
-
+                while (i < len && file_data[i] == '$')
                 {
-
                     i++;
-
                 }
-
                 // Read the name
-
                 name_builder = new StringBuilder();
-
-                while (i < len && file_data[i] !=
-                '-')
-
+                while (i < len && file_data[i] != '-')
                 {
-
-                    if (i < len && file_data[i] !=
-                    '$')
-
+                    if (i < len && file_data[i] != '$')
                     {
-
                         name_builder.Append(file_data[i]);
-
                     }
-
                     else
-
                     {
-
                         name_builder.Append(' ');
-
                     }
-
                     i++;
-
                 }
-
                 name = name_builder.ToString();
-
                 // Clear the spaces.
-
-                while (i < len && file_data[i] ==
-                '$')
-
+                while (i < len && file_data[i] == '$')
                 {
-
                     i++;
-
                 }
-
                 // Read the server
-
                 server_builder = new StringBuilder();
-
-                while (i < len && file_data[i] !=
-                '$')
+                while (i < len && file_data[i] != '$')
                 {
-                    if(file_data[i] != '-')
+                    if (file_data[i] != '-')
                     {
-                        
                         server_builder.Append(file_data[i]);
                     }
                     i++;
-
                 }
-
                 server = server_builder.ToString().Trim();
-
-
                 Guild G = new Guild(id, type, name, server);
-
                 guild_list.Add(G);
-
-            }
-
-
-
+            }        
             return guild_list;
-
         }
-
 
         List<Player> readPlayers()
         {
@@ -496,7 +407,7 @@ namespace FloresOlderr_Assignment3
                     if (!separated && alphanumeric.IndexOf(ch) == -1)
                     {
                         separated = true;
-                        file_data_builder  += '$';
+                        file_data_builder += '$';
                     }
                     else if (alphanumeric.IndexOf(ch) >= 0)
                     {
@@ -622,7 +533,6 @@ namespace FloresOlderr_Assignment3
 
                 foreach (var p in selected_players)
                 {
-                    //Console.WriteLine(p.ToString());
                     ResultsListView.Items.Add(p.ToString());
                 }
                 ResultsListView.Items.Add("");
@@ -655,31 +565,28 @@ namespace FloresOlderr_Assignment3
                 //                     GetRaceString(p.Race).Equals("Orc")
                 //                     select p).Count();
 
-                //Console.WriteLine(orc_count.ToString());
-                //Console.WriteLine(orcs_in_server.ToString());
-
                 int orcs_in_selected_server = (from p in player_roster
                                                where p.GetServer().Equals(PercentageServerComboBox.Text) &&
                                                GetRaceString(p.Race).Equals("Orc")
                                                select p).Count();
                 int trolls_in_selected_server = (from p in player_roster
-                                               where p.GetServer().Equals(PercentageServerComboBox.Text) &&
-                                               GetRaceString(p.Race).Equals("Troll")
-                                               select p).Count();
+                                                 where p.GetServer().Equals(PercentageServerComboBox.Text) &&
+                                                 GetRaceString(p.Race).Equals("Troll")
+                                                 select p).Count();
                 int taurens_in_selected_server = (from p in player_roster
-                                               where p.GetServer().Equals(PercentageServerComboBox.Text) &&
-                                               GetRaceString(p.Race).Equals("Tauren")
-                                               select p).Count();
+                                                  where p.GetServer().Equals(PercentageServerComboBox.Text) &&
+                                                  GetRaceString(p.Race).Equals("Tauren")
+                                                  select p).Count();
                 int forsaken_in_selected_server = (from p in player_roster
-                                               where p.GetServer().Equals(PercentageServerComboBox.Text) &&
-                                               GetRaceString(p.Race).Equals("Forsaken")
-                                               select p).Count();
+                                                   where p.GetServer().Equals(PercentageServerComboBox.Text) &&
+                                                   GetRaceString(p.Race).Equals("Forsaken")
+                                                   select p).Count();
 
                 int selected_server_count = (from p in player_roster
-                                               where (p.GetServer().Equals(PercentageServerComboBox.Text))
-                                               select p).Count();
+                                             where (p.GetServer().Equals(PercentageServerComboBox.Text))
+                                             select p).Count();
 
-                StringBuilder orc_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Orc",Convert.ToDecimal((double)orcs_in_selected_server / (double)selected_server_count)));
+                StringBuilder orc_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Orc", Convert.ToDecimal((double)orcs_in_selected_server / (double)selected_server_count)));
                 StringBuilder troll_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Troll ", Convert.ToDecimal((double)trolls_in_selected_server / (double)selected_server_count)));
                 StringBuilder tauren_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Tauren ", Convert.ToDecimal((double)taurens_in_selected_server / (double)selected_server_count)));
                 StringBuilder forsaken_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Forsaken ", Convert.ToDecimal((double)forsaken_in_selected_server / (double)selected_server_count)));
@@ -690,11 +597,6 @@ namespace FloresOlderr_Assignment3
                 ResultsListView.Items.Add(forsaken_percentage.ToString());
 
 
-                //foreach(int r in race_player_join)
-                //{
-                //Console.WriteLine("ORCS: " + orcs_in_selected_server.ToString() + " SELECTED SERVER TOTAL: " + selected_server_count );
-
-                //}
                 //from p in player_roster
                 //where (p.GetServer().Equals(SingleServerComboBox.Text) &&
                 //GetClass(p.Class_String).Equals(ClassComboBox.Text))
@@ -765,8 +667,8 @@ namespace FloresOlderr_Assignment3
             {
                 max = (int)MinNumericUpDown.Value;
                 min = (int)MaxNumericUpDown.Value;
-                MinNumericUpDown.Value = 0;
-                MaxNumericUpDown.Value = 0;
+                MinNumericUpDown.Value = 1;
+                MaxNumericUpDown.Value = 1;
                 ResultsListView = generateListView(ResultsListView);
                 ResultsListView.Items.Add("Error: Minimun value can not be more than the maximum value.");
             }
@@ -777,13 +679,13 @@ namespace FloresOlderr_Assignment3
                 ResultsListView.Items.Add(role_server);
                 ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
 
-                var selected_players = from p in player_roster
+                var selected_players = (from p in player_roster
                                        where (p.GetServer().Equals(RoleServerComboBox.Text) &&
                                        GetRole(p.Role).Equals(RoleComboBox.Text) &&
                                        Convert.ToInt32(p.Level) >= MinNumericUpDown.Value &&
                                        Convert.ToInt32(p.Level) <= MaxNumericUpDown.Value)
                                        orderby p.Level ascending
-                                       select p;
+                                       select p);
 
                 foreach (var p in selected_players)
                 {
@@ -811,13 +713,34 @@ namespace FloresOlderr_Assignment3
                 string guild_type = TypeComboBox.Text;
                 ResultsListView.Items.Add(guild_type);
 
-                var selected_guilds =  from g in guilds_roster
-                                       where g.Type.Equals(TypeComboBox.Text)
-                                       group g by g.Server;
+                var selected_guilds = (from g in guilds_roster
+                                       where GetType(g.Type).Equals(TypeComboBox.Text)
+                                       group g by g.Server
+                                       into g
+                                       select new { Server = g.Key, Name = g.ToList() }).Distinct();
+
+                //var selected_names = from guild_names in selected_guilds
+                //                     where guild_names.Server.Equals(selected_guilds)
+                //                     select guild_names.Name;
+
+                Console.WriteLine(selected_guilds.ToString());
+
+                //StringBuilder guilds = new StringBuilder(String.Format("{0} {1}", ));
 
                 foreach (var g in selected_guilds)
                 {
-                    ResultsListView.Items.Add(g.ToString());
+                    var selected_names = from guild_names in selected_guilds
+                                         where guild_names.Server.Equals(g.Server)
+                                         select guild_names.Name;
+                    foreach ( var names in selected_names)
+                    {
+                        foreach(var n in names)
+                        {
+                            Console.WriteLine(n.ToString());
+                            ResultsListView.Items.Add(String.Format("{0}", n.ToString()));
+                        }
+                        
+                    }                                           
                 }
 
                 ResultsListView.Items.Add("");
@@ -833,17 +756,66 @@ namespace FloresOlderr_Assignment3
             if (TankRadioButton.Checked)
             {
                 ResultsListView = generateListView(ResultsListView);
-                ResultsListView.Items.Add("Tank selected.");
+                ResultsListView.Items.Add("All Eligible Players Not Fulfilling the Tank Role");
+                ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
+
+                var players_not_in_tank = from p in player_roster
+                                          where (GetRole(p.Role) != TankRadioButton.Text) &&
+                                          (GetClass(p.Class_String).Equals("Druid") || GetClass(p.Class_String).Equals("Paladin") || GetClass(p.Class_String).Equals("Warrior"))
+
+                                          orderby p.Level ascending
+                                          select p;
+
+                foreach (var p in players_not_in_tank)
+                {
+                    ResultsListView.Items.Add(p.ToString());
+                }
+
+                ResultsListView.Items.Add("");
+                ResultsListView.Items.Add("END RESULTS");
+                ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
             }
             else if (HealerRadioButton.Checked)
             {
                 ResultsListView = generateListView(ResultsListView);
-                ResultsListView.Items.Add("Healer selected.");
+                ResultsListView.Items.Add("All Eligible Players Not Fulfilling the Healer Role");
+                ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
+
+                var players_not_in_healer = from p in player_roster
+                                            where (GetRole(p.Role) != HealerRadioButton.Text &&
+                                            (GetClass(p.Class_String).Equals("Druid") || GetClass(p.Class_String).Equals("Paladin") || GetClass(p.Class_String).Equals("Warrior")))
+                                            orderby p.Level ascending
+                                            select p;
+
+                foreach (var p in players_not_in_healer)
+                {
+                    ResultsListView.Items.Add(p.ToString());
+                }
+
+                ResultsListView.Items.Add("");
+                ResultsListView.Items.Add("END RESULTS");
+                ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
             }
             else if (DamageRadioButton.Checked)
             {
                 ResultsListView = generateListView(ResultsListView);
-                ResultsListView.Items.Add("Damage selected.");
+                ResultsListView.Items.Add("All Eligible Players Not Fulfilling the Damage Role");
+                ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
+
+                var players_not_in_damage = from p in player_roster
+                                            where (GetRole(p.Role) != DamageRadioButton.Text &&
+                                            (GetClass(p.Class_String).Equals("Druid") || GetClass(p.Class_String).Equals("Paladin") || GetClass(p.Class_String).Equals("Warrior")))
+                                            orderby p.Level ascending
+                                            select p;
+
+                foreach (var p in players_not_in_damage)
+                {
+                    ResultsListView.Items.Add(p.ToString());
+                }
+
+                ResultsListView.Items.Add("");
+                ResultsListView.Items.Add("END RESULTS");
+                ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
             }
             else
             {
@@ -855,15 +827,67 @@ namespace FloresOlderr_Assignment3
         // Option 6
         private void MaxLevelPlayersButton_Click(object sender, EventArgs e)
         {
-            int knights = (from p in player_roster
-                           where GetGuildString(p.Guild_ID).Equals("Knights of Cydonia")
-                           select p.Level).Count();
+            ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
+
+            var numbers = new List<decimal>();
+            decimal sum = numbers.Sum();
             
 
-            StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0,0.00}% Count: {2}", "Knights of Cydonia:  ", (knights/ knights) * 100, knights));
+                //var guild_max = (from p in player_roster
+                //                 where GetGuildString(p.Guild_ID).Equals(g.Name)
+                //                 group p by p.Level into player_level_group
+                //                 select new
+                //                 {
+                //                     Level = player_level_group.Key,
+                //                     Count = player_level_group.Count(),
 
-            ResultsListView.Items.Add(knights_max_level_percentage.ToString());
+                //                 });
+
+            //var list_of_guild = from g in guilds_roster select g;
+            foreach(Guild g in guilds_roster)
+            {
+                var list_of_max_players = (from p in player_roster
+                                      where p.Guild_ID.Equals(g.ID) && p.Level.Equals("60")
+                                      select p).Count();
+                var players_in_guild = (from p in player_roster
+                                           where p.Guild_ID.Equals(g.ID)
+                                           select p).Count();
+                Console.WriteLine("Name : " + g.Name + " max: " + list_of_max_players);
+                    Console.WriteLine("Name : " + g.Name + " count: " +  players_in_guild);
+
+
+                //foreach (var p in list_of_max_players)
+                //{
+                    //double percentage = players_in_guild / list_of_max_players;
+
+                if (list_of_max_players > 0 )
+                {
+
+                    double percentage = ((double)players_in_guild / (double)list_of_max_players);
+                    StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("<{0, -15}> {1, 6: 0,0.00%}", g.Name, percentage));
+                    ResultsListView.Items.Add(knights_max_level_percentage.ToString());
+                }
+                else
+                {
+
+                }
+                
+                //}               
+            }
+
+
+            //StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0,0.00%} Count: {2}", "Knights of Cydonia:  ", ((double)knights / (double)knights), knights));
+
+            //foreach(var guilds in list_of_guild)
+            //{
+            //    
+            //}
+
+            ResultsListView.Items.Add("");
+            ResultsListView.Items.Add("END RESULTS");
+            ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
         }
+
     }
 
     class Player
@@ -877,6 +901,7 @@ namespace FloresOlderr_Assignment3
         private string exp;
         private string guild_id;
         private string server;
+        private string guild_type;
         public Player(string id, string name, string race, string class_string, string role, string level, string exp, string guild_id)
         {
             this.id = id;
@@ -922,7 +947,6 @@ namespace FloresOlderr_Assignment3
             {
                 return role;
             }
-
         }
         public string Level
         {
@@ -959,17 +983,31 @@ namespace FloresOlderr_Assignment3
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder(String.Format("Name: {0, -20} {1, -20} Race: {2, -20} Level: {3, -2} {4, -20}", name, "(" + Form1.GetClass(class_string) + " – " + Form1.GetRole(role) + ")", Form1.GetRaceString(race), Level, "<" + Form1.GetGuildString(Guild_ID) + ">"));
+            StringBuilder class_role = new StringBuilder(String.Format("{0, -7} {1, -1} {2, -7}", "(" + Form1.GetClass(class_string), "–", Form1.GetRole(role) + ")"));
+            StringBuilder server = new StringBuilder(String.Format("{0, -15}","<" + Form1.GetGuildString(Guild_ID) + ">"));
+            StringBuilder stringBuilder = new StringBuilder(String.Format("Name: {0, -13} {1, -15} Race: {2, -20} Level: {3, -2} {4, 15}", name, class_role, Form1.GetRaceString(race), Level, server));
 
             return stringBuilder.ToString();
         }
+
         public void SetServer(string server)
         {
             this.server = server;
         }
+
         public string GetServer()
         {
             return server;
+        }
+
+        public void SetGuildType(string guild_type)
+        {
+            this.guild_type = guild_type;
+        }
+
+        public string GetGuildType()
+        {
+            return guild_type;
         }
     }
 

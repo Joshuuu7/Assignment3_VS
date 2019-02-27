@@ -350,7 +350,7 @@
             // 
             this.ResultsListView.Alignment = System.Windows.Forms.ListViewAlignment.Left;
             this.ResultsListView.AutoArrange = false;
-            this.ResultsListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ResultsListView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ResultsListView.FullRowSelect = true;
             this.ResultsListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.ResultsListView.HideSelection = false;
@@ -358,7 +358,7 @@
             this.ResultsListView.LabelWrap = false;
             this.ResultsListView.Location = new System.Drawing.Point(453, 40);
             this.ResultsListView.Name = "ResultsListView";
-            this.ResultsListView.Size = new System.Drawing.Size(488, 566);
+            this.ResultsListView.Size = new System.Drawing.Size(905, 566);
             this.ResultsListView.TabIndex = 29;
             this.ResultsListView.UseCompatibleStateImageBehavior = false;
             this.ResultsListView.View = System.Windows.Forms.View.List;
@@ -414,7 +414,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InfoText;
-            this.ClientSize = new System.Drawing.Size(953, 618);
+            this.ClientSize = new System.Drawing.Size(1370, 618);
             this.Controls.Add(this.RadioButtonPanel);
             this.Controls.Add(this.ResultsListView);
             this.Controls.Add(this.QueryHeaderLabel);
