@@ -87,7 +87,7 @@ namespace FloresOlderr_Assignment3
                 listView.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.ColumnContent);
             }
             listView.Columns[listView.Columns.Count - 1].Width = -2;
-            listView.Columns[0].Width = 600;
+            listView.Columns[0].Width = 900;
             listView.View = System.Windows.Forms.View.Details;
             return listView;
         }
@@ -820,6 +820,7 @@ namespace FloresOlderr_Assignment3
         private void MaxLevelPlayersButton_Click(object sender, EventArgs e)
         {
             ResultsListView = generateListView(ResultsListView);
+            ResultsListView.Items.Add("Percentage of Max Level Players in All Guilds");
             ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
 
             var numbers = new List<decimal>();
@@ -834,10 +835,10 @@ namespace FloresOlderr_Assignment3
                                               where p.Guild_ID.Equals(g.ID)
                                               select p).Count();
 
-                if (total_players_in_guild > 0 )
+                if ( total_players_in_guild > 0 )
                 {
                     double percentage = ((double)list_of_max_players / (double)total_players_in_guild);
-                    StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("{0, -21} {1, 6: 0,0.00%}", "<" + g.Name + ">", percentage));
+                    StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("{0, -21}          {1, 8: #,0.00%}", "<" + g.Name + ">", percentage));
                     ResultsListView.Items.Add(knights_max_level_percentage.ToString());
                 }
                 else
