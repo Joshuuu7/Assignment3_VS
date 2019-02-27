@@ -838,8 +838,8 @@ namespace FloresOlderr_Assignment3
                 if ( total_players_in_guild > 0 )
                 {
                     double percentage = ((double)list_of_max_players / (double)total_players_in_guild);
-                    StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("{0, -21}          {1, 8: #,0.00%}", "<" + g.Name + ">", percentage));
-                    ResultsListView.Items.Add(knights_max_level_percentage.ToString());
+                    StringBuilder max_level_percentage = new StringBuilder(String.Format("{0, -22}             {1, 8: #,0.00%}", "<" + g.Name + ">", percentage));
+                    ResultsListView.Items.Add(max_level_percentage.ToString());
                 }
                 else
                 {
