@@ -711,21 +711,14 @@ namespace FloresOlderr_Assignment3
             {
                 ResultsListView = generateListView(ResultsListView);
                 string guild_type = TypeComboBox.Text;
-                ResultsListView.Items.Add(guild_type);
+                ResultsListView.Items.Add("All " + TypeComboBox.Text + "-Type of Guilds");
+                ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
 
                 var selected_guilds = (from g in guilds_roster
                                        where GetType(g.Type).Equals(TypeComboBox.Text)
                                        group g by g.Server
                                        into g
                                        select new { Server = g.Key, Name = g.ToList() }).Distinct();
-
-                //var selected_names = from guild_names in selected_guilds
-                //                     where guild_names.Server.Equals(selected_guilds)
-                //                     select guild_names.Name;
-
-                Console.WriteLine(selected_guilds.ToString());
-
-                //StringBuilder guilds = new StringBuilder(String.Format("{0} {1}", ));
 
                 foreach (var g in selected_guilds)
                 {
@@ -736,8 +729,8 @@ namespace FloresOlderr_Assignment3
                     {
                         foreach(var n in names)
                         {
-                            Console.WriteLine(n.ToString());
-                            ResultsListView.Items.Add(String.Format("{0}", n.ToString()));
+                            ResultsListView.Items.Add(String.Format("{0, -15}", n.Server.ToString()));
+                            ResultsListView.Items.Add(String.Format("{0, 22}", "<" + n.Name.ToString() + ">"));
                         }
                         
                     }                                           
@@ -746,7 +739,6 @@ namespace FloresOlderr_Assignment3
                 ResultsListView.Items.Add("");
                 ResultsListView.Items.Add("END RESULTS");
                 ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
-
             }
         }
 
@@ -827,61 +819,32 @@ namespace FloresOlderr_Assignment3
         // Option 6
         private void MaxLevelPlayersButton_Click(object sender, EventArgs e)
         {
+            ResultsListView = generateListView(ResultsListView);
             ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
 
             var numbers = new List<decimal>();
             decimal sum = numbers.Sum();
-            
 
-                //var guild_max = (from p in player_roster
-                //                 where GetGuildString(p.Guild_ID).Equals(g.Name)
-                //                 group p by p.Level into player_level_group
-                //                 select new
-                //                 {
-                //                     Level = player_level_group.Key,
-                //                     Count = player_level_group.Count(),
-
-                //                 });
-
-            //var list_of_guild = from g in guilds_roster select g;
             foreach(Guild g in guilds_roster)
             {
                 var list_of_max_players = (from p in player_roster
-                                      where p.Guild_ID.Equals(g.ID) && p.Level.Equals("60")
-                                      select p).Count();
-                var players_in_guild = (from p in player_roster
-                                           where p.Guild_ID.Equals(g.ID)
+                                           where p.Guild_ID.Equals(g.ID) && p.Level.Equals("60")
                                            select p).Count();
-                Console.WriteLine("Name : " + g.Name + " max: " + list_of_max_players);
-                    Console.WriteLine("Name : " + g.Name + " count: " +  players_in_guild);
+                var total_players_in_guild = (from p in player_roster
+                                              where p.Guild_ID.Equals(g.ID)
+                                              select p).Count();
 
-
-                //foreach (var p in list_of_max_players)
-                //{
-                    //double percentage = players_in_guild / list_of_max_players;
-
-                if (list_of_max_players > 0 )
+                if (total_players_in_guild > 0 )
                 {
-
-                    double percentage = ((double)players_in_guild / (double)list_of_max_players);
-                    StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("<{0, -15}> {1, 6: 0,0.00%}", g.Name, percentage));
+                    double percentage = ((double)list_of_max_players / (double)total_players_in_guild);
+                    StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("{0, -21} {1, 6: 0,0.00%}", "<" + g.Name + ">", percentage));
                     ResultsListView.Items.Add(knights_max_level_percentage.ToString());
                 }
                 else
                 {
 
-                }
-                
-                //}               
+                }               
             }
-
-
-            //StringBuilder knights_max_level_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0,0.00%} Count: {2}", "Knights of Cydonia:  ", ((double)knights / (double)knights), knights));
-
-            //foreach(var guilds in list_of_guild)
-            //{
-            //    
-            //}
 
             ResultsListView.Items.Add("");
             ResultsListView.Items.Add("END RESULTS");
