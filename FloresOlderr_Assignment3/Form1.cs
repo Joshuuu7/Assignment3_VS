@@ -2,6 +2,8 @@
  * 
  * Programmers: Joshua Flores, Adam Olderr
  * 
+ * z-IDs: 1682720, 1753651
+ * 
  * Assignment Number : 3
  * 
  * Due Date: February 28, 2018
@@ -27,6 +29,17 @@ using System.IO;
 
 namespace FloresOlderr_Assignment3
 {
+    public enum Classes
+    {
+        Warrior, Mage, Druid, Priest, Warlock,
+        Rogue, Paladin, Hunter, Shaman
+    };
+
+    public enum Role { Tank, Healer, Damage };
+
+    public enum Race
+    {  Orc, Troll, Tauren, Forsaken };
+
     public partial class Form1 : Form
     {
         static Dictionary<string, string> customGuilds = new Dictionary<string, string>();
@@ -59,15 +72,9 @@ namespace FloresOlderr_Assignment3
             "ZappyBoi" });
             player_roster = readPlayers();
             player_roster.Sort((x, y) => x.Name.CompareTo(y.Name));
-            foreach (Player p in player_roster)
-            {
-                //Console.WriteLine(p.Name);
-            }
+
             guilds_roster = readGuilds();
-            foreach (Guild g in guilds_roster)
-            {
-                //Console.WriteLine(g.ToString());
-            }
+
             foreach (Player p in player_roster)
             {
                 foreach (Guild g in guilds_roster)
@@ -75,13 +82,8 @@ namespace FloresOlderr_Assignment3
                     if (p.Guild_ID.Equals(g.ID))
                     {
                         p.SetServer(g.Server);
-                        //Console.WriteLine("Name: {0} Server: {1}", p.Name, p.GetServer());
                     }
                 }
-            }
-            foreach (Player p in player_roster)
-            {
-                //Console.WriteLine(p.ToString() + " Server: " + p.GetServer());
             }
         }
 
@@ -135,7 +137,6 @@ namespace FloresOlderr_Assignment3
         public static string GetRole(string roleID)
         {
             string role_string = "";
-
 
             switch (roleID)
             {
@@ -631,7 +632,20 @@ namespace FloresOlderr_Assignment3
             return player_list;
         }
 
-        // Option 1
+        /********************************************************************************
+        * 
+        * Method: AllPlayersOfClassServerButton_Click
+        * 
+        * Arguments: object sender, EventArgs e
+        * 
+        * Return Type: void
+        * 
+        * Purpose: This method handles the first event, option 1. It reads the values in
+        *          from two comboboxes, compares it in a LINQ query, and displays the 
+        *          result in the ResultsListView.
+        * 
+        * *******************************************************************************/
+
         private void AllPlayersOfClassServerButton_Click(object sender, EventArgs e)
         {
             if (ClassComboBox.Text.Equals(""))
@@ -667,9 +681,23 @@ namespace FloresOlderr_Assignment3
             }
         }
 
-        // Option 2
+        /********************************************************************************
+        * 
+        * Method: PercentageRaceButton_Click
+        * 
+        * Arguments: object sender, EventArgs e
+        * 
+        * Return Type: void
+        * 
+        * Purpose: This method handles the event option 2. It gathers it ito
+        *          a LINQ query,  and displays the percentage of Races per Server in
+        *          the ResultsListView.
+        * 
+        * *******************************************************************************/
+
         private void PercentageRaceButton_Click(object sender, EventArgs e)
         {
+            
             if (PercentageServerComboBox.Text.Equals(""))
             {
                 ResultsListView = generateListView(ResultsListView);
@@ -677,19 +705,13 @@ namespace FloresOlderr_Assignment3
             }
             else
             {
+                Race race;
+
                 ResultsListView = generateListView(ResultsListView);
                 string percentage = PercentageServerComboBox.Text;
 
                 ResultsListView.Items.Add("Percentage of Each Race from " + percentage);
                 ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
-                //var orc_count = (from p in player_roster
-                //                where GetRaceString(p.Race).Equals("Orc")
-                //                select p).Count();
-
-                //var orcs_in_server = (from p in player_roster
-                //                     where p.GetServer().Equals(PercentageServerComboBox.Text) &&
-                //                     GetRaceString(p.Race).Equals("Orc")
-                //                     select p).Count();
 
                 int orcs_in_selected_server = (from p in player_roster
                                                where p.GetServer().Equals(PercentageServerComboBox.Text) &&
@@ -722,60 +744,27 @@ namespace FloresOlderr_Assignment3
                 ResultsListView.Items.Add(tauren_percentage.ToString());
                 ResultsListView.Items.Add(forsaken_percentage.ToString());
 
-
-                //from p in player_roster
-                //where (p.GetServer().Equals(SingleServerComboBox.Text) &&
-                //GetClass(p.Class_String).Equals(ClassComboBox.Text))
-                //orderby p.Level ascending
-                //select p;
-
-                //var selected_server = (from g in guilds_roster
-                //                       join p in player_roster on g.ID equals p.Guild_ID
-                //                       where g.Server == SingleServerComboBox.Text
-                //                       group p by GetRaceString(p.Race) into raceGroup
-                //                       select new
-                //                       {
-                //                           Race = raceGroup.Key ,
-                //                           Count = raceGroup.Count()
-
-                //                           //race_count.Add(raceGroup.Key.ToString(), raceGroup.Count()),
-                //                       });
-
-
-                //foreach (var singleServerByRacePercentage in race_player_join)
-                //{
-                //    StringBuilder race_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0,0}", GetRaceString(singleServerByRacePercentage.Race), Convert.ToDouble(singleServerByRacePercentage.Race.Count())));
-
-                //    ResultsListView.Items.Add(race_percentage.ToString());  
-                //}
-
                 ResultsListView.Items.Add("");
                 ResultsListView.Items.Add("END RESULTS");
                 ResultsListView.Items.Add("-------------------------------------------------------------------------------------------");
-
-
-                //foreach(Guild g in guilds_roster)
-                //ResultsListView.Items.Add(g.Server);
-
-                //var selected = (from p in player_roster
-                //                from g in guilds_roster
-                //                where g.Server.CompareTo(SingleServerComboBox.Text) == 0
-                //                where g.ID == GetGuildString(p.Guild_ID)
-                //                group p by GetRaceString(p.Race)
-                //                ).Distinct();
-
-
-                //foreach(var singleServerByRacePercentage in selected_server.GroupBy(server => server.Race)
-                //    .Select(raceGroup => new {
-                //    Race = raceGroup.Key,
-                //    Count = raceGroup.Count()
-                //    }).OrderBy(x => x.Race)
-                //    )
-
             }
         }
 
-        // Option 3
+        /********************************************************************************
+        * 
+        * Method: RoleTypesButton_Click
+        * 
+        * Arguments: object sender, EventArgs e
+        * 
+        * Return Type: void
+        * 
+        * Purpose: This method handles the event option 3. It reads the values in
+        *          from two comboboxes and two numeric updowns, compares it in a LINQ query,
+        *          and displays the result in the ResultsListView. It also makes sure
+        *          the updowns have certain limitations.
+        * 
+        * *******************************************************************************/
+
         private void RoleTypesButton_Click(object sender, EventArgs e)
         {
             int min = 0, max = 0;
@@ -825,7 +814,21 @@ namespace FloresOlderr_Assignment3
             }
         }
 
-        // Option 4
+        /********************************************************************************
+        * 
+        * Method: GuildsSingleTypeButton_Click
+        * 
+        * Arguments: object sender, EventArgs e
+        * 
+        * Return Type: void
+        * 
+        * Purpose: This method handles the event option 4. It reads the values in
+        *          a single combobox, compares it in a LINQ query, and displays the 
+        *          result in the ResultsListView. It is displays all the Guilds in a
+        *          specific Server.
+        * 
+        * *******************************************************************************/
+
         private void GuildsSingleTypeButton_Click(object sender, EventArgs e)
         {
             if (TypeComboBox.Text.Equals(""))
@@ -868,7 +871,21 @@ namespace FloresOlderr_Assignment3
             }
         }
 
-        // Option 5
+        /********************************************************************************
+        * 
+        * Method: PlayersWithoutRoleButton_Click
+        * 
+        * Arguments: object sender, EventArgs e
+        * 
+        * Return Type: void
+        * 
+        * Purpose: This method handles the event option 5. It compares it in a LINQ query
+        *          and displays the result in the ResultsListView. It displays all the
+        *          players in the list who can fill a role and are currently part of a
+        *          different one.
+        * 
+        * *******************************************************************************/
+
         private void PlayersWithoutRoleButton_Click(object sender, EventArgs e)
         {
             if (TankRadioButton.Checked)
@@ -942,7 +959,20 @@ namespace FloresOlderr_Assignment3
             }
         }
 
-        // Option 6
+        /********************************************************************************
+       * 
+       * Method: MaxLevelPlayersButton_Click
+       * 
+       * Arguments: object sender, EventArgs e
+       * 
+       * Return Type: void
+       * 
+       * Purpose: This method handles the event option 6. It compares it in a LINQ query
+       *          and displays the result in the ResultsListView. It displays all the
+       *          max level players average in all guilds.
+       * 
+       * *******************************************************************************/
+
         private void MaxLevelPlayersButton_Click(object sender, EventArgs e)
         {
             ResultsListView = generateListView(ResultsListView);
@@ -966,6 +996,7 @@ namespace FloresOlderr_Assignment3
                     double percentage = ((double)list_of_max_players / (double)total_players_in_guild);
                     StringBuilder max_level_percentage = new StringBuilder(String.Format("{0, -22}             {1, 8: #,0.00%}", "<" + g.Name + ">", percentage));
                     ResultsListView.Items.Add(max_level_percentage.ToString());
+                    ResultsListView.Items.Add("");
                 }
                 else
                 {
@@ -1073,9 +1104,9 @@ namespace FloresOlderr_Assignment3
 
         public override string ToString()
         {
-            StringBuilder class_role = new StringBuilder(String.Format("{0, -7} {1, -1} {2, -7}", "(" + Form1.GetClass(class_string), "–", Form1.GetRole(role) + ")"));
+            StringBuilder class_role = new StringBuilder(String.Format("{0, -8} {1, -1} {2, -7}", "(" + Form1.GetClass(class_string), "–", Form1.GetRole(role) + ")"));
             StringBuilder server = new StringBuilder(String.Format("{0, -15}","<" + Form1.GetGuildString(Guild_ID) + ">"));
-            StringBuilder stringBuilder = new StringBuilder(String.Format("Name: {0, -13} {1, -15} Race: {2, -20} Level: {3, -2} {4, 15}", name, class_role, Form1.GetRaceString(race), Level, server));
+            StringBuilder stringBuilder = new StringBuilder(String.Format("Name: {0, -13} {1, -15} Race: {2, -20} Level: {3, -2} {4, -15}", name, class_role, Form1.GetRaceString(race), Level, server));
 
             return stringBuilder.ToString();
         }
