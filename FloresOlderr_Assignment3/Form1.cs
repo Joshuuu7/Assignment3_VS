@@ -1,4 +1,20 @@
-﻿using System;
+﻿/********************************************************************************
+ * 
+ * Programmers: Joshua Flores, Adam Olderr
+ * 
+ * Assignment Number : 3
+ * 
+ * Due Date: February 28, 2018
+ * 
+ * Class: CSCI504
+ * 
+ * Instructor: Daniel Rogness
+ * 
+ * Teaching Assistants: Aravind Muvva, Kiranmayi Manukonda
+ * 
+ * *******************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -74,6 +90,18 @@ namespace FloresOlderr_Assignment3
 
         }
 
+        /********************************************************************************
+         * 
+         * Method: generateListView
+         * 
+         * Arguments: ListView type
+         * 
+         * Return Type: ListView type
+         * 
+         * Purpose: Creates a ListView of certain width with a vertical scrollbar. 
+         * 
+         * *******************************************************************************/
+
         private ListView generateListView(ListView listView)
         {
             listView.Clear();
@@ -91,11 +119,25 @@ namespace FloresOlderr_Assignment3
             listView.View = System.Windows.Forms.View.Details;
             return listView;
         }
-        public static string GetRole(string roleId)
+
+        /********************************************************************************
+        * 
+        * Method: GetRole
+        * 
+        * Arguments: string roleID
+        * 
+        * Return Type: string
+        * 
+        * Purpose: Determines a Role type from the enum. 
+        * 
+        * *******************************************************************************/
+
+        public static string GetRole(string roleID)
         {
             string role_string = "";
 
-            switch (roleId)
+
+            switch (roleID)
             {
                 case "Tank":
                     role_string = "Tank";
@@ -118,7 +160,7 @@ namespace FloresOlderr_Assignment3
                 default:
                     try
                     {
-                        role_string = customGuilds[roleId];
+                        role_string = customGuilds[roleID];
                     }
                     catch (KeyNotFoundException knfe)
                     {
@@ -129,11 +171,23 @@ namespace FloresOlderr_Assignment3
             return role_string;
         }
 
-        public static string GetGuildString(string guildId)
+        /********************************************************************************
+        * 
+        * Method: GetGuildString
+        * 
+        * Arguments: string guildID
+        * 
+        * Return Type: string
+        * 
+        * Purpose: Determines a Guild type from the enum. 
+        * 
+        * *******************************************************************************/
+
+        public static string GetGuildString(string guildID)
         {
             string guild_string = "";
 
-            switch (guildId)
+            switch (guildID)
             {
                 case "475186":
                     guild_string = "Knights of Cydonia";
@@ -174,7 +228,7 @@ namespace FloresOlderr_Assignment3
                 default:
                     try
                     {
-                        guild_string = customGuilds[guildId];
+                        guild_string = customGuilds[guildID];
                     }
                     catch (KeyNotFoundException knfe)
                     {
@@ -184,6 +238,18 @@ namespace FloresOlderr_Assignment3
             }
             return guild_string;
         }
+
+        /********************************************************************************
+        * 
+        * Method: GetRaceString
+        * 
+        * Arguments: string raceId
+        * 
+        * Return Type: string
+        * 
+        * Purpose: Determines a Race type from the enum. 
+        * 
+        * *******************************************************************************/
 
         public static string GetRaceString(string raceId)
         {
@@ -205,6 +271,18 @@ namespace FloresOlderr_Assignment3
                     return "Orc";
             }
         }
+
+        /********************************************************************************
+        * 
+        * Method: GetClass
+        * 
+        * Arguments: string class_string
+        * 
+        * Return Type: string
+        * 
+        * Purpose: Determines a Class type from the enum. 
+        * 
+        * *******************************************************************************/
 
         public static string GetClass(string class_string)
         {
@@ -247,12 +325,36 @@ namespace FloresOlderr_Assignment3
             }
         }
 
+        /********************************************************************************
+        * 
+        * Method: GetGuildServer
+        * 
+        * Arguments: Guild g
+        * 
+        * Return Type: string
+        * 
+        * Purpose: Returns a Server that's related to a player's Guild. 
+        * 
+        * *******************************************************************************/
+
         static string GetGuildServer(Guild g)
         {
             string guild_server = "";
             guild_server = g.Server.ToString();
             return guild_server;
         }
+
+        /********************************************************************************
+        * 
+        * Method: GetType
+        * 
+        * Arguments: string guild_type
+        * 
+        * Return Type: string
+        * 
+        * Purpose: Returns a Guild Type for a specific Guild. 
+        * 
+        * *******************************************************************************/
 
         public static string GetType(string guild_type)
         {      
@@ -283,6 +385,18 @@ namespace FloresOlderr_Assignment3
 
             }
         }
+
+        /********************************************************************************
+        * 
+        * Method: readGuilds
+        * 
+        * Arguments: none
+        * 
+        * Return Type: List<Guild>
+        * 
+        * Purpose: Reads from the Guilds.txt file, stores them in a List, and returns it. 
+        * 
+        * *******************************************************************************/
 
         List<Guild> readGuilds()
         {
@@ -391,6 +505,18 @@ namespace FloresOlderr_Assignment3
             }        
             return guild_list;
         }
+
+        /********************************************************************************
+        * 
+        * Method: readPlayers
+        * 
+        * Arguments: none
+        * 
+        * Return Type: List<Player>
+        * 
+        * Purpose: Reads from the Players.txt file, stores them in a List, and returns it. 
+        * 
+        * *******************************************************************************/
 
         List<Player> readPlayers()
         {
