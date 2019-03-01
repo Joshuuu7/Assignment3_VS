@@ -734,10 +734,10 @@ namespace FloresOlderr_Assignment3
                                              where (p.GetServer().Equals(PercentageServerComboBox.Text))
                                              select p).Count();
 
-                StringBuilder orc_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Orc", Convert.ToDecimal((double)orcs_in_selected_server / (double)selected_server_count)));
-                StringBuilder troll_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Troll ", Convert.ToDecimal((double)trolls_in_selected_server / (double)selected_server_count)));
-                StringBuilder tauren_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Tauren ", Convert.ToDecimal((double)taurens_in_selected_server / (double)selected_server_count)));
-                StringBuilder forsaken_percentage = new StringBuilder(String.Format("{0, -10}: {1, 6: 0.00%}", "Forsaken ", Convert.ToDecimal((double)forsaken_in_selected_server / (double)selected_server_count)));
+                StringBuilder orc_percentage = new StringBuilder(String.Format("{0, -10} {1, -6: 0.00%}", "Orc: ", Convert.ToDecimal((double)orcs_in_selected_server / (double)selected_server_count)));
+                StringBuilder troll_percentage = new StringBuilder(String.Format("{0, -10} {1, -6: 0.00%}", "Troll: ", Convert.ToDecimal((double)trolls_in_selected_server / (double)selected_server_count)));
+                StringBuilder tauren_percentage = new StringBuilder(String.Format("{0, -10} {1, -6: 0.00%}", "Tauren: ", Convert.ToDecimal((double)taurens_in_selected_server / (double)selected_server_count)));
+                StringBuilder forsaken_percentage = new StringBuilder(String.Format("{0, -10} {1, -6: 0.00%}", "Forsaken: ", Convert.ToDecimal((double)forsaken_in_selected_server / (double)selected_server_count)));
 
                 ResultsListView.Items.Add(orc_percentage.ToString());
                 ResultsListView.Items.Add(troll_percentage.ToString());
